@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tabview_item_title_text_size">14sp</dimen>
+    <dimen name="tabview_item_number_text_size">8sp</dimen>
+    <dimen name="tabview_item_number_padding_horizontal">5dp</dimen>
+    <dimen name="tabview_item_number_padding_vertical">2dp</dimen>
+    <dimen name="tabview_item_number_margin_left">-8dp</dimen>
+    <dimen name="tabview_item_number_margin_top">2dp</dimen>
+</resources>

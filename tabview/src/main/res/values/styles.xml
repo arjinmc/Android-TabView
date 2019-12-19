@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TabView">
+        <attr name="TabView_tabTitleTextColor" format="reference" />
+        <attr name="TabView_tabTitleTextSize" format="dimension" />
+        <attr name="TabView_tabNumberTextColor" format="reference" />
+        <attr name="TabView_tabNumberTextSize" format="dimension" />
+        <attr name="TabView_tabNumberPaddingHorizontal" format="dimension" />
+        <attr name="TabView_tabNumberPaddingVertical" format="dimension" />
+        <attr name="TabView_tabNumberBackground" format="reference" />
+        <attr name="TabView_tabNumberMarginLeft" format="dimension" />
+        <attr name="TabView_tabNumberMarginTop" format="dimension" />
+    </declare-styleable>
+</resources>

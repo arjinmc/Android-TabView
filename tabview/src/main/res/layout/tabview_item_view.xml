@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tabview_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tabview_tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tabview_item_number_margin_left"
+        android:layout_marginTop="@dimen/tabview_item_number_margin_top"
+        android:layout_toRightOf="@id/tabview_tv_title"
+        android:background="@drawable/tabview_bg_item_view_number"
+        android:paddingLeft="@dimen/tabview_item_number_padding_horizontal"
+        android:paddingTop="@dimen/tabview_item_number_padding_vertical"
+        android:paddingRight="@dimen/tabview_item_number_padding_horizontal"
+        android:paddingBottom="@dimen/tabview_item_number_padding_vertical"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/tabview_item_number_text_size"
+        android:visibility="gone" />
+</RelativeLayout>
