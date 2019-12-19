@@ -16,4 +16,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.arjinmc.tabview.TabIndicatorView
+        android:id="@+id/tabIndicatorview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:TabIndicatorView_color="@color/colorPrimary"
+        app:TabIndicatorView_itemCount="3"
+        app:TabIndicatorView_paddingHorizontal="4dp"
+        app:TabIndicatorView_thickness="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabview" />
+
+    <Button
+        android:id="@+id/btn_next_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="next position"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

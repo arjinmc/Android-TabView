@@ -79,6 +79,10 @@ public class TabView extends LinearLayout {
     public void init(AttributeSet attrs) {
         setOrientation(LinearLayout.HORIZONTAL);
 
+        if (attrs == null) {
+            return;
+        }
+
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TabView);
         mTitleTextColor = typedArray.getColorStateList(R.styleable.TabView_TabView_tabTitleTextColor);
         mTitleTextSize = typedArray.getDimension(R.styleable.TabView_TabView_tabTitleTextSize

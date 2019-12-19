@@ -11,4 +11,12 @@
         <attr name="TabView_tabNumberMarginLeft" format="dimension" />
         <attr name="TabView_tabNumberMarginTop" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="TabIndicatorView">
+        <attr name="TabIndicatorView_itemCount" format="integer" />
+        <attr name="TabIndicatorView_color" format="color" />
+        <attr name="TabIndicatorView_thickness" format="dimension" />
+        <attr name="TabIndicatorView_paddingHorizontal" format="dimension" />
+        <attr name="TabIndicatorView_paddingVertical" format="dimension" />
+    </declare-styleable>
 </resources>
