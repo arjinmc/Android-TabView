@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         mTabView.setOnSelectedChangeListener(new TabView.OnSelectedChangeListener() {
             @Override
-            public void onSelected(int itemId) {
-                Log.i("onSelected", print(itemId));
+            public void onSelected(int position, TabItemView tabItemView) {
+                Log.i("onSelected", print(tabItemView.getId()));
             }
 
             @Override
-            public void onReleaseSelect(int itemId) {
-                Log.i("onReleaseSelect", print(itemId));
+            public void onReleaseSelect(int position, TabItemView tabItemView) {
+                Log.i("onReleaseSelect", print(tabItemView.getId()));
             }
         });
 

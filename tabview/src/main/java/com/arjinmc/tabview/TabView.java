@@ -366,10 +366,12 @@ public class TabView extends LinearLayout {
         }
         if (mOnSelectedChangeListener != null) {
             getItemById(mSelectedItemId).setSelected(false);
-            mOnSelectedChangeListener.onReleaseSelect(mSelectedItemId);
+            int releasePosition = findItemPositionById(mSelectedItemId);
+            mOnSelectedChangeListener.onReleaseSelect(releasePosition, mTabItemViewList.get(releasePosition));
             mSelectedItemId = itemId;
             getItemById(mSelectedItemId).setSelected(true);
-            mOnSelectedChangeListener.onSelected(itemId);
+            int newSelectedPosition = findItemPositionById(itemId);
+            mOnSelectedChangeListener.onSelected(newSelectedPosition, mTabItemViewList.get(newSelectedPosition));
         }
 
         if (mTabIndicatorView != null) {
@@ -389,9 +391,9 @@ public class TabView extends LinearLayout {
     }
 
     public interface OnSelectedChangeListener {
-        void onSelected(int itemId);
+        void onSelected(int position, TabItemView tabItemView);
 
-        void onReleaseSelect(int itemId);
+        void onReleaseSelect(int position, TabItemView tabItemView);
     }
 
     /**
