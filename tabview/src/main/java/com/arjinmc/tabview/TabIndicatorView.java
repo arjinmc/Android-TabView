@@ -1,5 +1,7 @@
 package com.arjinmc.tabview;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -8,6 +10,7 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -20,6 +23,7 @@ import androidx.annotation.RequiresApi;
 public class TabIndicatorView extends View {
 
     private final int DEFAULT_COLOR = Color.RED;
+    private final int ANIMATION_DURATION = 300;
 
     private final int STATUS_IDE = 0;
     private final int STATUS_SCROLLING = 1;
@@ -56,6 +60,18 @@ public class TabIndicatorView extends View {
      * draw line position under item
      */
     private int mCurrentPosition = 0;
+    /**
+     * scroll to left / right animtaion
+     */
+    private ValueAnimator mScrollAnimation;
+    /**
+     * moving offset for x axis
+     */
+    private int mMovingOffset;
+    /**
+     * mark for scrolling fromPosition
+     */
+    private int mFromPosition;
 
     private Paint mPaint;
 
@@ -107,10 +123,13 @@ public class TabIndicatorView extends View {
         }
 
         if (mStatus == STATUS_IDE) {
-            int startX = getPaddingLeft() + (mPaddingHorizontal * 2 + mIndicatorWidth) * mCurrentPosition + mPaddingHorizontal;
+            int startX = getPaddingLeft() + (mPaddingHorizontal * 2 + mIndicatorWidth) * mCurrentPosition
+                    + mPaddingHorizontal;
             canvas.drawLine(startX, mThickness / 2, startX + mIndicatorWidth, mThickness / 2, mPaint);
         } else if (mStatus == STATUS_SCROLLING) {
-
+            int startX = getPaddingLeft() + (mPaddingHorizontal * 2 + mIndicatorWidth) * mFromPosition
+                    + mPaddingHorizontal + mMovingOffset;
+            canvas.drawLine(startX, mThickness / 2, startX + mIndicatorWidth, mThickness / 2, mPaint);
         }
     }
 
@@ -126,5 +145,79 @@ public class TabIndicatorView extends View {
 
     public void setColor(int color) {
 
+    }
+
+    /**
+     * scroll to destination position
+     *
+     * @param position
+     */
+    public void scrollToPosition(int position) {
+        startScrollAnimation(mCurrentPosition, position);
+    }
+
+    /**
+     * start scrollAnimation
+     *
+     * @param fromPosition
+     * @param toPosition
+     */
+    private void startScrollAnimation(int fromPosition, int toPosition) {
+
+        if (fromPosition == toPosition) {
+            return;
+        }
+
+        mFromPosition = fromPosition;
+        startScrollToPosition(fromPosition, toPosition);
+        mCurrentPosition = toPosition;
+    }
+
+    /**
+     * start scroll to position
+     *
+     * @param fromPosition
+     * @param toPosition
+     */
+    private void startScrollToPosition(int fromPosition, int toPosition) {
+
+        int scrollLength = (mIndicatorWidth + mPaddingHorizontal * 2) * (toPosition - fromPosition);
+        if (mScrollAnimation != null) {
+            mScrollAnimation.removeAllUpdateListeners();
+            mScrollAnimation.removeAllListeners();
+        }
+
+        mScrollAnimation = ValueAnimator.ofInt(0, scrollLength);
+        mScrollAnimation.setDuration(ANIMATION_DURATION);
+        mScrollAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        mScrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mMovingOffset = (int) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        mScrollAnimation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mStatus = STATUS_SCROLLING;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mStatus = STATUS_IDE;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mStatus = STATUS_IDE;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mScrollAnimation.start();
     }
 }

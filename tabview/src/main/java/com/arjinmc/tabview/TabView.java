@@ -53,7 +53,9 @@ public class TabView extends LinearLayout {
     private List<TabItemView> mTabItemViewList;
 
     private OnSelectedChangeListener mOnSelectedChangeListener;
-    private int mSelectedItemId;
+
+    private TabIndicatorView mTabIndicatorView;
+    private int mSelectedItemId = -1;
 
     public TabView(Context context) {
         super(context);
@@ -192,9 +194,11 @@ public class TabView extends LinearLayout {
         if (mTabItemViewList == null || mTabItemViewList.isEmpty()) {
             return;
         }
-        for (TabItemView tabItemView : mTabItemViewList) {
-            if (tabItemView.getId() == id) {
-                tabItemView.setSelected(true);
+
+        int itemCount = mTabItemViewList.size();
+        for (int i = 0; i < itemCount; i++) {
+            if (mTabItemViewList.get(i).getId() == id) {
+                dispatchSelectEvent(mTabItemViewList.get(i).getId(), false);
                 return;
             }
         }
@@ -209,7 +213,25 @@ public class TabView extends LinearLayout {
         if (mTabItemViewList == null || mTabItemViewList.isEmpty() || position >= mTabItemViewList.size()) {
             return;
         }
-        mTabItemViewList.get(position).setSelected(true);
+        dispatchSelectEvent(mTabItemViewList.get(position).getId(), false);
+    }
+
+    /**
+     * get selected item position
+     *
+     * @return
+     */
+    public int getSelectedItemPosition() {
+        if (mTabItemViewList == null || mTabItemViewList.isEmpty() || mSelectedItemId == -1) {
+            return -1;
+        }
+        int itemCount = mTabItemViewList.size();
+        for (int i = 0; i < itemCount; i++) {
+            if (mTabItemViewList.get(i).getId() == mSelectedItemId) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -231,11 +253,94 @@ public class TabView extends LinearLayout {
     }
 
     /**
-     * dispatch selecte event
+     * find item position by item id
+     *
+     * @param itemId
+     * @return
+     */
+    private int findItemPositionById(int itemId) {
+        if (mTabItemViewList == null || mTabItemViewList.isEmpty()) {
+            return -1;
+        }
+
+        int itemCount = mTabItemViewList.size();
+        for (int i = 0; i < itemCount; i++) {
+            if (mTabItemViewList.get(i).getId() == itemId) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * scroll to position
+     *
+     * @param position
+     */
+    public void scrollToPosition(int position) {
+        if (mTabItemViewList == null || mTabItemViewList.isEmpty() || position >= mTabItemViewList.size()) {
+            return;
+        }
+        dispatchSelectEvent(mTabItemViewList.get(position).getId(), true);
+    }
+
+    /**
+     * scroll to position by item id
      *
      * @param itemId
      */
-    public void dispatchSelectEvent(int itemId) {
+    public void scrollToItem(int itemId) {
+        dispatchSelectEvent(itemId, true);
+    }
+
+    /**
+     * scroll to preview position
+     */
+    public void scrollToPreviewPosition() {
+
+        if (mTabItemViewList == null || mTabItemViewList.isEmpty()) {
+            return;
+        }
+        int position = findItemPositionById(mSelectedItemId);
+        if (position == -1) {
+            return;
+        }
+        position--;
+        if (position < 0) {
+            position = mTabItemViewList.size() - 1;
+        }
+        dispatchSelectEvent(mTabItemViewList.get(position).getId(), true);
+    }
+
+    /**
+     * scroll to next position
+     */
+    public void scrollToNextPosition() {
+
+        if (mTabItemViewList == null || mTabItemViewList.isEmpty()) {
+            return;
+        }
+
+        int position = findItemPositionById(mSelectedItemId);
+        if (position == -1) {
+            return;
+        }
+        position++;
+        if (position >= mTabItemViewList.size()) {
+            position = 0;
+        }
+        dispatchSelectEvent(mTabItemViewList.get(position).getId(), true);
+
+    }
+
+    /**
+     * dispatch selecte event
+     *
+     * @param itemId
+     * @param needAnimation
+     */
+    private void dispatchSelectEvent(int itemId, boolean needAnimation) {
 
         if (mSelectedItemId == itemId) {
             return;
@@ -244,7 +349,19 @@ public class TabView extends LinearLayout {
             getItemById(mSelectedItemId).setSelected(false);
             mOnSelectedChangeListener.onReleaseSelect(mSelectedItemId);
             mSelectedItemId = itemId;
+            getItemById(mSelectedItemId).setSelected(true);
             mOnSelectedChangeListener.onSelected(itemId);
+        }
+
+        if (mTabIndicatorView != null) {
+            int position = findItemPositionById(itemId);
+            if (position != -1) {
+                if (needAnimation) {
+                    mTabIndicatorView.scrollToPosition(position);
+                } else {
+                    mTabIndicatorView.setSelectPosition(position);
+                }
+            }
         }
     }
 
@@ -256,6 +373,15 @@ public class TabView extends LinearLayout {
         void onSelected(int itemId);
 
         void onReleaseSelect(int itemId);
+    }
+
+    /**
+     * bind TabIndicatorView
+     *
+     * @param tabIndicatorView
+     */
+    public void bindIndicatorView(TabIndicatorView tabIndicatorView) {
+        mTabIndicatorView = tabIndicatorView;
     }
 
 }

@@ -60,7 +60,7 @@ public class TabItemView extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 setSelected(true);
-                mParent.dispatchSelectEvent(getId());
+                mParent.scrollToItem(getId());
             }
         });
     }
