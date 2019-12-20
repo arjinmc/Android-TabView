@@ -1,7 +1,7 @@
 # Android-TabView
 Ajustable Indicator TabView.
 
-<img src="https://github.com/arjinmc/Android-TabView/blob/master/images/device-2019-12-20-140730.png" width="30%" height="30%">
+<img src="https://github.com/arjinmc/Android-TabView/blob/master/images/device-2019-12-20-140730.png" width="40%" height="40%">
 
 ## How to use
 
