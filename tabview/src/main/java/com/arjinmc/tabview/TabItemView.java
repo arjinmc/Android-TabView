@@ -26,6 +26,7 @@ public class TabItemView extends RelativeLayout {
 
     private final int DEFAULT_MAX_NUMBER = 99;
 
+    private RelativeLayout mViewRoot;
     private TextView mTvTitle, mTvNumber;
 
     private int mMaxNumber = DEFAULT_MAX_NUMBER;
@@ -53,6 +54,7 @@ public class TabItemView extends RelativeLayout {
             }
         }
         inflate(getContext(), R.layout.tabview_item_view, this);
+        mViewRoot = findViewById(R.id.tabview_item_parent);
         mTvTitle = findViewById(R.id.tabview_tv_title);
         mTvNumber = findViewById(R.id.tabview_tv_number);
 
@@ -63,6 +65,28 @@ public class TabItemView extends RelativeLayout {
                 mParent.scrollToItem(getId());
             }
         });
+    }
+
+    /**
+     * set item padding
+     *
+     * @param horizontal
+     * @param vertical
+     */
+    public void setItemPadding(int horizontal, int vertical) {
+        mViewRoot.setPadding(horizontal, vertical, horizontal, vertical);
+    }
+
+    /**
+     * set item padding
+     *
+     * @param horizontalRes
+     * @param verticalRes
+     */
+    public void setItemPaddingRes(@DimenRes int horizontalRes, @DimenRes int verticalRes) {
+        int horizontal = getResources().getDimensionPixelSize(horizontalRes);
+        int vertical = getResources().getDimensionPixelSize(verticalRes);
+        setItemPadding(horizontal, vertical);
     }
 
     /**
@@ -268,6 +292,32 @@ public class TabItemView extends RelativeLayout {
         layoutParams.leftMargin = getResources().getDimensionPixelSize(marginLeftRes);
         layoutParams.topMargin = getResources().getDimensionPixelSize(marginTopRes);
         mTvNumber.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * set number layout size
+     *
+     * @param numberSize
+     */
+    public void setNumberSize(int numberSize) {
+        if (numberSize == -1) {
+            return;
+        }
+
+        RelativeLayout.LayoutParams layoutParams = (LayoutParams) mTvNumber.getLayoutParams();
+        layoutParams.width = numberSize;
+        layoutParams.height = numberSize;
+        mTvNumber.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * set number layout size
+     *
+     * @param numberSizeRes
+     */
+    public void setNumberSizeRes(@DimenRes int numberSizeRes) {
+        int size = getResources().getDimensionPixelSize(numberSizeRes);
+        setNumberSize(size);
     }
 
     /**

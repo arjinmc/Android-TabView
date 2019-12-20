@@ -12,8 +12,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 /**
  * TabIndicatorView
@@ -51,7 +54,7 @@ public class TabIndicatorView extends View {
     /**
      * padding horizontal/vertical
      */
-    private int mPaddingHorizontal, mPaddingVertical;
+    private int mPaddingHorizontal;
     /**
      * drawing status
      */
@@ -109,6 +112,7 @@ public class TabIndicatorView extends View {
         mThickness = typedArray.getDimensionPixelSize(R.styleable.TabIndicatorView_TabIndicatorView_thickness, 1);
         mColor = typedArray.getColor(R.styleable.TabIndicatorView_TabIndicatorView_color, DEFAULT_COLOR);
         mPaddingHorizontal = typedArray.getDimensionPixelSize(R.styleable.TabIndicatorView_TabIndicatorView_paddingHorizontal, 0);
+        typedArray.recycle();
 
         mPaint.setStrokeWidth(mThickness);
         mPaint.setColor(mColor);
@@ -143,8 +147,24 @@ public class TabIndicatorView extends View {
         postInvalidate();
     }
 
-    public void setColor(int color) {
+    /**
+     * set color
+     *
+     * @param colorRes
+     */
+    public void setColorRes(@ColorRes int colorRes) {
+        mColor = ContextCompat.getColor(getContext(), colorRes);
+        mPaint.setColor(mColor);
+    }
 
+    /**
+     * set color
+     *
+     * @param color
+     */
+    public void setColor(@ColorInt int color) {
+        mColor = color;
+        mPaint.setColor(mColor);
     }
 
     /**

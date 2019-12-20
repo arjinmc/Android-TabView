@@ -22,6 +22,10 @@ import java.util.List;
 public class TabView extends LinearLayout {
 
     /**
+     * item padding horizontal /vertical
+     */
+    private int mItemPaddingHorizontal, mItemPaddingVertical;
+    /**
      * title text color
      */
     private ColorStateList mTitleTextColor;
@@ -49,6 +53,10 @@ public class TabView extends LinearLayout {
      * number margin top/left
      */
     private int mNumberMarginTop, mNumberMarginLeft;
+    /**
+     * number text layout size (width = height) for show dot mode
+     */
+    private int mNumberSize;
 
     private List<TabItemView> mTabItemViewList;
 
@@ -86,6 +94,12 @@ public class TabView extends LinearLayout {
         }
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TabView);
+
+        mItemPaddingHorizontal = typedArray.getDimensionPixelSize(R.styleable.TabView_TabView_tabItemPaddingHorizontal
+                , getResources().getDimensionPixelSize(R.dimen.tabview_item_padding));
+        mItemPaddingVertical = typedArray.getDimensionPixelSize(R.styleable.TabView_TabView_tabItemPaddingVertical
+                , getResources().getDimensionPixelSize(R.dimen.tabview_item_padding));
+
         mTitleTextColor = typedArray.getColorStateList(R.styleable.TabView_TabView_tabTitleTextColor);
         mTitleTextSize = typedArray.getDimension(R.styleable.TabView_TabView_tabTitleTextSize
                 , getResources().getDimensionPixelSize(R.dimen.tabview_item_title_text_size));
@@ -102,6 +116,9 @@ public class TabView extends LinearLayout {
                 , getResources().getDimensionPixelSize(R.dimen.tabview_item_number_margin_top));
         mNumberMarginLeft = typedArray.getDimensionPixelSize(R.styleable.TabView_TabView_tabNumberMarginLeft
                 , getResources().getDimensionPixelSize(R.dimen.tabview_item_number_margin_left));
+        mNumberSize = typedArray.getDimensionPixelSize(R.styleable.TabView_TabView_tabNumberSize, -1);
+
+        typedArray.recycle();
     }
 
     /**
@@ -111,6 +128,7 @@ public class TabView extends LinearLayout {
      */
     public TabItemView newItem() {
         TabItemView tabItemView = new TabItemView(getContext(), this);
+        tabItemView.setItemPadding(mItemPaddingHorizontal, mItemPaddingVertical);
         tabItemView.setTitleTextColor(mTitleTextColor);
         tabItemView.setTitleTextSize(mTitleTextSize);
         tabItemView.setNumberTextColor(mNumberTextColor);
@@ -119,6 +137,7 @@ public class TabView extends LinearLayout {
         tabItemView.setNumberPaddingVertical(mNumberPaddingVertical);
         tabItemView.setNumberBackground(mNumberBackgroundDrawable);
         tabItemView.setNumberMargin(mNumberMarginLeft, mNumberMarginTop);
+        tabItemView.setNumberSize(mNumberSize);
         return tabItemView;
     }
 

@@ -13,6 +13,8 @@
         app:TabView_tabNumberTextSize="@dimen/tabview_item_number_text_size"
         app:TabView_tabTitleTextColor="@drawable/front_tab_text"
         app:TabView_tabTitleTextSize="14sp"
+        app:TabView_tabItemPaddingHorizontal="10dp"
+        app:TabView_tabItemPaddingVertical="2dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,7 +24,7 @@
         android:layout_height="wrap_content"
         app:TabIndicatorView_color="@color/colorPrimary"
         app:TabIndicatorView_itemCount="3"
-        app:TabIndicatorView_paddingHorizontal="4dp"
+        app:TabIndicatorView_paddingHorizontal="6dp"
         app:TabIndicatorView_thickness="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabview" />

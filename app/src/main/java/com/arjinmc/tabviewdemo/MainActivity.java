@@ -55,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mTabIndicatorView = findViewById(R.id.tabIndicatorview);
-        //bing TabIndicatorView，so that TabIndicatorView auto change the selected position itself
+        //bing TabIndicatorView if you need.Once bind TabIndicatorView will auto change the selected position itself
         mTabView.bindIndicatorView(mTabIndicatorView);
 
-        mTabView.setSelectedItemId(R.id.tab_news);
+        //set init index if you need
+//        mTabView.setSelectedItemId(R.id.tab_news);
+        //or
+//        mTabView.setSelectedItemPosition(2);
 
         Button btnPreview = findViewById(R.id.btn_preview_position);
         btnPreview.setOnClickListener(new View.OnClickListener() {
